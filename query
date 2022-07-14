@@ -1,0 +1,17 @@
+
+Sateesh Dasari
+Wed, Jul 13, 11:56 PM (5 hours ago)
+to me
+
+declare @FromDate datetime=DATEADD(yyyy, 2022 - 1900, 0),@ToDate datetime=DATEADD(yyyy, 2022 - 1900 + 1, -1);  
+ 
+WITH Dates (DateNo) AS (  
+SELECT DATEADD(DAY, DATEDIFF(DAY, 0, @ToDate) - DATEDIFF(DAY, @FromDate, @ToDate), 0)  
+UNION ALL SELECT DATEADD(DAY, 1, DateNo)  
+FROM Dates  
+WHERE DATEADD(DAY, 1, DateNo) <=@ToDate)  
+ 
+SELECT DateNo as [Date],DATEPART(iso_week,DateNo) as ISOWeek
+FROM Dates  
+ 
+option (maxrecursion 365);
